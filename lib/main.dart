@@ -68,7 +68,72 @@ class _AreaCalculatorState extends State<AreaCalculator> {
             });
           }
         ),
+        // width
+        AreaTextField(controller: widthController, hint: 'Width'),
+        //height
+        AreaTextField(controller: heightController, hint: 'Height'),
+        Container(
+          margin: EdgeInsets.all(15.0),
+          child: RaisedButton(
+            child: Text('Calculate Area',
+              style: TextStyle(fontSize: 18.0),),
+            // color: Colors.lightblue
+            onPressed: calculateArea,
+          ),
+        ),
+        Text(result,
+          style: TextStyle(
+            fontSize: 24.0,
+            color: Colors.green[700],
+          ),
+        ),
       ]),
+    );
+  }
+
+  void calculateArea() {
+    double area;
+
+    if (currentShape == 'Rectangle') {
+      area = width * height;
+    }
+    else if (currentShape == 'Triangle') {
+      area = width * height / 2;
+    }
+    else {
+      area = 0;
+    }
+    setState(() {
+      result = 'The area is ' + area.toString();
+    });
+  }
+
+  void updateWidth() {
+    setState(() {
+      if (widthController.text != '') {
+        width = double.parse(widthController.text);
+      }
+      else {
+        width = 0;
+      }
+    });
+  }
+}
+
+class AreaTextField extends StatelessWidget {
+  AreaTextField({this.controller, this.hint});
+
+  final TextEditingController controller;
+  final String hint;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(15.0),
+      child: TextField(
+        controller: controller,
+        keyboardType: TextInputType.number,
+      )
     );
   }
 }
